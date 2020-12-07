@@ -3,6 +3,9 @@
 # API Key
 .env
 
+# ESLint Cache
+.eslintcache
+
 # dependencies
 /node_modules
 /.pnp
