@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import getLocation from 'javascript/getLocation';
 import 'map.css';
 
-function MyComponent() {
+function MapComponent() {
   const [center, setCenter] = useState({ lat: 37, lng: 126 });
 
   const onLoad = useCallback(async (map) => {
@@ -22,4 +22,4 @@ function MyComponent() {
   );
 }
 
-export default React.memo(MyComponent);
+export default React.memo(MapComponent);
