@@ -10,16 +10,17 @@ interface GlobalCoronaInfoTypes {
   LastUpdate: Date;
 }
 
-interface ResponseTypes {
-  message: string;
-  data: GlobalCoronaInfoTypes[] | '';
+async function getGlobalInfo(url: string): Promise<GlobalCoronaInfoTypes> {
+  return new Promise((resolve, rejects) => {
+    axios
+      .get(`${process.env.REACT_APP_REST_API_URL}${url}`)
+      .then((res) => {
+        resolve(res.data.data[0]);
+      })
+      .catch((err) => {
+        rejects();
+      });
+  });
 }
 
-async function getGlobalInfo(url: string): GlobalCoronaInfoTypes {
-  try {
-    const resData = await axios.get(`${url}/global-corona-info`);
-    return resData.data[0];
-  } catch (err) {
-    throw err;
-  }
-}
+export default getGlobalInfo;
