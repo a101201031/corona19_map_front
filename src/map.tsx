@@ -6,9 +6,8 @@ import 'map.css';
 function MapComponent() {
   const [center, setCenter] = useState({ lat: 37, lng: 126 });
 
-  const onLoad = useCallback(async (map) => {
+  const onLoad = useCallback(async () => {
     const location = await getLocation();
-    console.log(location);
     setCenter(location);
   }, []);
 
