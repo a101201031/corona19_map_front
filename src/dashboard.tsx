@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-// import getCoronaInfo from 'javascript/getGlobalInfo';
-// import 'dashboard.css';
+import React, { useEffect, useState } from 'react';
+import getCoronaInfo from 'javascript/getCoronaInfo';
+import InfoList from 'infoList';
 
 function Dashboard() {
-  const sampleData = [
-    {
-      name: 'soo',
-      data: '13527189',
-    },
-    {
-      name: 'Ol Jihoon',
-      data: 'ILL HY HL',
-    },
-  ];
-  const [content, setContent] = useState(sampleData);
-  const lodaContent = content.map((val, idx) => {
-    return (
-      <div className="dashboard-content" key={idx}>
-        <p>{val.name}</p>
-        <p>{val.data}</p>
-      </div>
-    );
-  });
+  const sampleData = {
+    NewConfirmed: 0,
+    TotalConfirmed: 0,
+    NewDeaths: 0,
+    TotalDeaths: 0,
+    NewRecovered: 0,
+    TotalRecovered: 0,
+    LastUpdate: new Date(),
+  };
+
+  const [globalInfo, setGlobalInfo] = useState(sampleData);
+
+  useEffect(() => {
+    (async () => {
+      const url = {
+        baseUrl: process.env.REACT_APP_REST_API_URL,
+        reqUrl: '/global-corona-info',
+      };
+      const globalInfo = await getCoronaInfo(url);
+      setGlobalInfo(globalInfo);
+    })();
+  }, []);
 
   return (
     <>
-      <div className="top-toolbar"></div>
-      <div className="dashboard">
-        <div>{lodaContent}</div>
-      </div>
+      <InfoList infos={globalInfo} />
     </>
   );
 }
