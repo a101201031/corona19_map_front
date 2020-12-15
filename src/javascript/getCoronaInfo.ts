@@ -10,10 +10,13 @@ interface GlobalCoronaInfoTypes {
   LastUpdate: Date;
 }
 
-async function getGlobalInfo(url: string): Promise<GlobalCoronaInfoTypes> {
+async function getCoronaInfo(url: {
+  baseUrl: string;
+  reqUrl: string;
+}): Promise<GlobalCoronaInfoTypes> {
   return new Promise((resolve, rejects) => {
     axios
-      .get(`${process.env.REACT_APP_REST_API_URL}${url}`)
+      .get(`${url.baseUrl}${url.reqUrl}`)
       .then((res) => {
         resolve(res.data.data[0]);
       })
@@ -23,4 +26,4 @@ async function getGlobalInfo(url: string): Promise<GlobalCoronaInfoTypes> {
   });
 }
 
-export default getGlobalInfo;
+export default getCoronaInfo;
