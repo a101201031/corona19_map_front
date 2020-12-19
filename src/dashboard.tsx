@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { getCoronaInfo } from 'javascript/getCoronaInfo';
-import { CountryItem } from 'models';
 import { InfoList } from 'infoList';
+import { CountryItem } from 'models';
+import React from 'react';
 
-const Dashboard: React.FC = () => {
-  const [countryItems, setCountryItems] = useState<CountryItem[]>([]);
+interface Props {
+  countryItems: CountryItem[];
+}
 
-  const getCountryItems = async () => {
-    const globalInfo = await getCoronaInfo();
-    setCountryItems(globalInfo);
-  };
-
-  useEffect(() => {
-    getCountryItems();
-  }, []);
-
+const Dashboard: React.FC<Props> = ({ countryItems }) => {
   return (
     <>
       <InfoList countryItems={countryItems} />
