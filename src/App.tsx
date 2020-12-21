@@ -70,6 +70,11 @@ const TabLi = styled.li`
   cursor: pointer;
   border-radius: 10px;
   border: 1px solid black;
+  &:hover {
+    background: orange;
+    font-size: 20px;
+    font-weight: bold;
+  }
 `;
 
 export default App;
