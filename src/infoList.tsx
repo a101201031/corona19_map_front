@@ -1,5 +1,5 @@
 import { CountryItem } from 'models';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -115,7 +115,7 @@ const CountryInfo: FC<CountryInfoProps> = ({ countryItem, rank }) => {
 };
 
 const GlobalDiv = styled.div`
-  height: 22vh;
+  height: 170px;
   background-color: black;
   color: white;
   display: flex;
