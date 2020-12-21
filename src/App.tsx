@@ -35,33 +35,41 @@ const App: FC = () => {
 
   return (
     <>
-      <div>
+      <ToolbarDiv>
         <TabUl>
           <TabLi onClick={() => tabChange(TabEnum.dashBoard)}>
             상황판 보기
           </TabLi>
           <TabLi onClick={() => tabChange(TabEnum.map)}>지도로 보기</TabLi>
         </TabUl>
-      </div>
-      <div className="contents">{contents[tab]}</div>
+      </ToolbarDiv>
+      <ContentDiv>{contents[tab]}</ContentDiv>
     </>
   );
 };
 
+const ToolbarDiv = styled.div`
+  height: 60px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ContentDiv = styled.div`
+  height: 90%;
+`;
 const TabUl = styled.ul`
   margin: 0px;
   padding: 0px;
   list-style: none;
-  display: flex;
-  justify-content: center;
 `;
 const TabLi = styled.li`
   background: #ededed;
   display: inline-block;
   padding: 10px 15px;
-  margin-left: 10px;
-  margin-right: 10px;
   cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid black;
 `;
 
 export default App;
