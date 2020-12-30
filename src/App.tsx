@@ -5,11 +5,12 @@ import 'App.css';
 import { CountryItem } from 'models';
 import { getCoronaInfo } from 'javascript/getCoronaInfo';
 import styled from 'styled-components';
+import ChartMap from 'ChartMap';
 
 const App: FC = () => {
   enum TabEnum {
     dashBoard = 0,
-    map = 1,
+    chartMap = 1,
   }
 
   const [countryItems, setCountryItems] = useState<CountryItem[]>([]);
@@ -17,7 +18,7 @@ const App: FC = () => {
 
   const contents = {
     0: <Dashboard countryItems={countryItems} />,
-    1: <Map />,
+    1: <ChartMap countryItems={countryItems} />,
   };
 
   const getCountryItems = async () => {
@@ -40,7 +41,7 @@ const App: FC = () => {
           <TabLi onClick={() => tabChange(TabEnum.dashBoard)}>
             상황판 보기
           </TabLi>
-          <TabLi onClick={() => tabChange(TabEnum.map)}>지도로 보기</TabLi>
+          <TabLi onClick={() => tabChange(TabEnum.chartMap)}>지도로 보기</TabLi>
         </TabUl>
       </ToolbarDiv>
       <ContentDiv>{contents[tab]}</ContentDiv>
