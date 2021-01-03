@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import Map from 'map';
 import Dashboard from 'dashboard';
 import 'App.css';
 import { CountryItem } from 'models';
+import { CountryName } from 'lang/korean';
 import { getCoronaInfo } from 'javascript/getCoronaInfo';
 import styled from 'styled-components';
 import ChartMap from 'ChartMap';
@@ -23,6 +23,7 @@ const App: FC = () => {
 
   const getCountryItems = async () => {
     const globalInfo = await getCoronaInfo();
+    globalInfo.map((v) => (v.Country = CountryName[v.CountryCode]));
     setCountryItems(globalInfo);
   };
 
