@@ -8,22 +8,29 @@ interface Props {
 }
 
 const ChartMap: FC<Props> = ({ countryItems }) => {
-  const dataColumn = ['country', '총 확진자', '신규 확진자'];
+  const dataColumn = ['country', '총 확진자', '총 사망자'];
   const dataRow = useMemo(
     () =>
       countryItems.map((val) => [
         { v: val.CountryCode, f: val.Country },
         val.TotalConfirmed,
-        val.NewConfirmed,
+        val.TotalDeaths,
       ]),
     [countryItems],
   );
+
+  const options = {
+    colorAxis: { colors: ['#cfcfcf', '#cf0000'] },
+    backgroundColor: '#303030',
+    datalessRegionColor: '#303030',
+  };
+
   return (
     <Chart
       chartType="GeoChart"
       mapsApiKey={ENV.GOOGLE_API_KEY}
       data={[dataColumn, ...dataRow]}
-      chartLanguage={'korean'}
+      options={options}
     />
   );
 };
