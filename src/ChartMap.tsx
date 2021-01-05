@@ -2,6 +2,7 @@ import { ENV } from 'constants/ENV';
 import { CountryItem } from 'models';
 import React, { FC, useMemo } from 'react';
 import { Chart } from 'react-google-charts';
+import { ChartWrapperOptions } from 'react-google-charts/dist/types';
 
 interface Props {
   countryItems: CountryItem[];
@@ -19,7 +20,7 @@ const ChartMap: FC<Props> = ({ countryItems }) => {
     [countryItems],
   );
 
-  const options = {
+  const options: ChartWrapperOptions['options'] = {
     colorAxis: { colors: ['#cfcfcf', '#cf0000'] },
     backgroundColor: '#303030',
     datalessRegionColor: '#303030',
