@@ -1,13 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
-import Dashboard from 'dashboard';
-import 'App.css';
+import { Dashboard } from 'Dashboard';
 import { CountryItem } from 'models';
 import { CountryName } from 'lang/korean';
 import { getCoronaInfo } from 'javascript/getCoronaInfo';
 import styled from 'styled-components';
 import ChartMap from 'ChartMap';
 
-const App: FC = () => {
+export const App: FC = () => {
   enum TabEnum {
     dashBoard = 0,
     chartMap = 1,
@@ -78,5 +77,3 @@ const TabLi = styled.li`
     font-weight: bold;
   }
 `;
-
-export default App;
