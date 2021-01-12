@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Dashboard } from 'Dashboard';
 import { CountryItem } from 'models';
 import { CountryName } from 'lang/korean';
@@ -7,18 +8,7 @@ import styled from 'styled-components';
 import ChartMap from 'ChartMap';
 
 export const App: FC = () => {
-  enum TabEnum {
-    dashBoard = 0,
-    chartMap = 1,
-  }
-
   const [countryItems, setCountryItems] = useState<CountryItem[]>([]);
-  const [tab, setTab] = useState<TabEnum>(TabEnum.dashBoard);
-
-  const contents = {
-    0: <Dashboard countryItems={countryItems} />,
-    1: <ChartMap countryItems={countryItems} />,
-  };
 
   const getCountryItems = async () => {
     const globalInfo = await getCoronaInfo();
@@ -30,22 +20,29 @@ export const App: FC = () => {
     getCountryItems();
   }, []);
 
-  const tabChange = (id: TabEnum) => {
-    setTab(id);
-  };
-
   return (
-    <>
+    <Router>
       <ToolbarDiv>
         <TabUl>
-          <TabLi onClick={() => tabChange(TabEnum.dashBoard)}>
-            상황판 보기
-          </TabLi>
-          <TabLi onClick={() => tabChange(TabEnum.chartMap)}>지도로 보기</TabLi>
+          <Link to="/">
+            <TabLi>상황판 보기</TabLi>
+          </Link>
+          <Link to="/map">
+            <TabLi>지도로 보기</TabLi>
+          </Link>
         </TabUl>
       </ToolbarDiv>
-      <ContentDiv>{contents[tab]}</ContentDiv>
-    </>
+      <ContentDiv>
+        <Switch>
+          <Route path="/map">
+            <ChartMap countryItems={countryItems} />
+          </Route>
+          <Route path="/">
+            <Dashboard countryItems={countryItems} />
+          </Route>
+        </Switch>
+      </ContentDiv>
+    </Router>
   );
 };
 
@@ -57,7 +54,7 @@ const ToolbarDiv = styled.div`
   align-items: center;
 `;
 const ContentDiv = styled.div`
-  height: 90%;
+  height: 94vh;
 `;
 const TabUl = styled.ul`
   margin: 0px;
