@@ -22,12 +22,15 @@ const ChartMap: FC<Props> = ({ countryItems }) => {
 
   const options: ChartWrapperOptions['options'] = {
     colorAxis: { colors: ['#cfcfcf', '#cf0000'] },
-    backgroundColor: '#303030',
-    datalessRegionColor: '#303030',
+    backgroundColor: '#101010',
+    datalessRegionColor: '#101010',
+    defaultColor: '#101010',
   };
 
   return (
     <Chart
+      width={'100%'}
+      height={'100%'}
       chartType="GeoChart"
       mapsApiKey={ENV.GOOGLE_API_KEY}
       data={[dataColumn, ...dataRow]}
