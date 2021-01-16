@@ -1,6 +1,9 @@
 import { CountryItem } from 'models';
 import React, { FC, useMemo } from 'react';
 import styled from 'styled-components';
+import CountUp from 'react-countup';
+import { Col, Div, Row, Span } from 'style';
+import { numWithComma } from 'javascript/numWithComma';
 
 interface Props {
   countryItems: CountryItem[];
@@ -11,18 +14,29 @@ interface CountryInfoProps {
   rank?: number;
 }
 
-export const InfoList: FC<Props> = ({ countryItems }) => {
-  return (
-    <>
-      <GlobalDiv>
-        <GlobalInfo countryItems={countryItems} />
-      </GlobalDiv>
-      <CountryMainDiv>
-        <CountryInfoList countryItems={countryItems} />
-      </CountryMainDiv>
-    </>
-  );
-};
+export const InfoList: FC<Props> = ({ countryItems }) => (
+  <Col width="100%" alignItems="center">
+    <Row
+      width="100%"
+      maxWidth="800px"
+      justifyContent="space-between"
+      color="white"
+    >
+      <GlobalInfo countryItems={countryItems} />
+    </Row>
+    <Col
+      width="100%"
+      maxWidth="800px"
+      color="white"
+      backgroundColor="rgba(0, 0, 0, 0.8)"
+      mt="10px"
+      borderRadius="20px"
+      alignItems="stretch"
+    >
+      <CountryInfoList countryItems={countryItems} />
+    </Col>
+  </Col>
+);
 
 const GlobalInfo: FC<Props> = ({ countryItems }) => {
   const globalInfo = useMemo(
@@ -54,18 +68,36 @@ const GlobalInfo: FC<Props> = ({ countryItems }) => {
     <>
       <GlobalInfoDiv>
         <p>총 확진자 (단위: 명)</p>
-        <p>{globalInfo.TotalConfirmed}</p>
-        <p>+ ({globalInfo.NewConfirmed})</p>
+        <Span>
+          <CountUp start={0} end={globalInfo.TotalConfirmed} separator="," />
+        </Span>
+        <br />+ (
+        <Span color="#ffff00">
+          <CountUp start={0} end={globalInfo.NewConfirmed} separator="," />
+        </Span>
+        )
       </GlobalInfoDiv>
       <GlobalInfoDiv>
         <p>총 사망자 (단위: 명)</p>
-        <p>{globalInfo.TotalDeaths}</p>
-        <p>+ ({globalInfo.NewDeaths})</p>
+        <Span>
+          <CountUp start={0} end={globalInfo.TotalDeaths} separator="," />
+          <br />+ (
+        </Span>
+        <Span color="#f15555">
+          <CountUp start={0} end={globalInfo.NewDeaths} separator="," />
+        </Span>
+        )
       </GlobalInfoDiv>
       <GlobalInfoDiv>
-        <p>총 회복 (단위: 명)</p>
-        <p>{globalInfo.TotalRecovered}</p>
-        <p>+ ({globalInfo.NewRecovered})</p>
+        <p>총 완치자 (단위: 명)</p>
+        <Span>
+          <CountUp start={0} end={globalInfo.TotalRecovered} separator="," />
+        </Span>
+        <br />+ (
+        <Span color="#55f155">
+          <CountUp start={0} end={globalInfo.NewRecovered} separator="," />
+        </Span>
+        )
       </GlobalInfoDiv>
     </>
   );
@@ -83,13 +115,17 @@ const CountryInfoList: FC<Props> = ({ countryItems }) => {
   );
   return (
     <>
-      <h2>신규 확진자 TOP 5</h2>
-      <CountryDiv>
+      <Row justifyContent="center">
+        <h2>신규 확진자 TOP 5</h2>
+      </Row>
+      <Row p="16px" justifyContent="space-around" flexWrap="wrap">
         {sortedNew.slice(0, 5).map((val, idx) => (
           <CountryInfo countryItem={val} rank={idx + 1} key={idx} />
         ))}
-      </CountryDiv>
-      <h2>총 확진자 TOP 5</h2>
+      </Row>
+      <Row justifyContent="center">
+        <h2>총 확진자 TOP 5</h2>
+      </Row>
       <CountryDiv>
         {sortedTotal.slice(0, 5).map((val, idx) => (
           <CountryInfo countryItem={val} rank={idx + 1} key={idx} />
@@ -101,43 +137,34 @@ const CountryInfoList: FC<Props> = ({ countryItems }) => {
 
 const CountryInfo: FC<CountryInfoProps> = ({ countryItem, rank }) => {
   return (
-    <div>
-      <RankingSpan>{!rank || `#${rank}`}</RankingSpan>
+    <Div m="4px">
+      <Span fontSize="20px">{!rank || `#${rank}`}</Span>
       <CountryInfoDiv>
-        <p>{countryItem.Country}</p>
-        <p>확진자: {countryItem.TotalConfirmed}</p>
-        <p>+ ({countryItem.NewConfirmed})</p>
-        <p>사망자: {countryItem.TotalDeaths}</p>
-        <p>+ ({countryItem.NewDeaths})</p>
+        {countryItem.Country}
+        <p>
+          <Span>
+            확진자: {numWithComma(countryItem.TotalConfirmed)}
+            <br />+ ({numWithComma(countryItem.NewConfirmed)})
+          </Span>
+        </p>
+        <p>
+          사망자: {numWithComma(countryItem.TotalDeaths)} <br />+ (
+          {numWithComma(countryItem.NewDeaths)})
+        </p>
       </CountryInfoDiv>
-    </div>
+    </Div>
   );
 };
 
-const GlobalDiv = styled.div`
-  height: 170px;
-  background-color: black;
-  color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
 const GlobalInfoDiv = styled.div`
   background-color: #505050;
   flex: auto;
-  max-width: 150px;
+  font-size: 25px;
+  max-width: 200px;
   text-align: center;
-  padding: 16px;
+  padding: 16px 10px;
   border-radius: 16px;
-`;
-const CountryMainDiv = styled.div`
-  width: 80%;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  border-radius: 20px;
-  border: 3px solid black;
+  margin: 4px;
 `;
 const CountryDiv = styled.div`
   padding: 16px;
@@ -155,8 +182,4 @@ const CountryInfoDiv = styled.div`
   text-align: center;
   padding: 16px;
   border-radius: 16px;
-`;
-const RankingSpan = styled.span`
-  color: black;
-  font-size: 20px;
 `;
