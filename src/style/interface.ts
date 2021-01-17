@@ -13,7 +13,8 @@ export interface DivProps
     LayoutProps,
     BorderProps,
     ColorProps,
-    PositionProps {}
+    PositionProps,
+    TypographyProps {}
 export interface RowColProps
   extends SpaceProps,
     LayoutProps,

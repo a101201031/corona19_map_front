@@ -1,6 +1,14 @@
 import type { DivProps, RowColProps } from 'style/interface';
 import styled from 'styled-components';
-import { border, color, flexbox, layout, position, space } from 'styled-system';
+import {
+  border,
+  color,
+  flexbox,
+  layout,
+  position,
+  space,
+  typography,
+} from 'styled-system';
 
 export const Div = styled.div<DivProps>`
   ${space}
@@ -8,6 +16,7 @@ export const Div = styled.div<DivProps>`
   ${border}
   ${color}
   ${position}
+  ${typography}
 `;
 
 export const Row = styled.div<RowColProps>`
