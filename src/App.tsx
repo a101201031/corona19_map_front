@@ -1,15 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { Dashboard } from 'Dashboard';
+import styled from 'styled-components';
+
 import { CountryItem } from 'models';
 import { CountryName } from 'lang/korean';
-import { getCoronaInfo } from 'javascript/getCoronaInfo';
-import styled from 'styled-components';
+import { Col, Div, Span } from 'style';
+import { Dashboard } from 'Dashboard';
 import ChartMap from 'ChartMap';
-import { Col } from 'style';
+import { getCoronaInfo } from 'javascript/getCoronaInfo';
 import { getCountryImoji } from 'javascript/getCountryImoji';
+import { dateFormat } from 'javascript/dateFormat';
+
 export const App: FC = () => {
   const [countryItems, setCountryItems] = useState<CountryItem[]>([]);
+  const [lastUpd, setLastUpd] = useState<CountryItem['LastUpdate']>();
 
   const getCountryItems = async () => {
     const globalInfo = await getCoronaInfo();
@@ -19,6 +23,7 @@ export const App: FC = () => {
           CountryName[v.CountryCode] + ' ' + getCountryImoji(v.CountryCode)),
     );
     setCountryItems(globalInfo);
+    setLastUpd(new Date(globalInfo[0].LastUpdate));
   };
 
   useEffect(() => {
@@ -34,6 +39,13 @@ export const App: FC = () => {
         alignItems="stretch"
       >
         <ToolbarDiv>
+          <Div textAlign="center" width="120px" ml="10px" mr="10px">
+            <Span color="white" fontSize="15px">
+              갱신일
+              <br />
+              {dateFormat(lastUpd!)}
+            </Span>
+          </Div>
           <TabUl>
             <Link to="/">
               <TabLi>상황판 보기</TabLi>
@@ -42,6 +54,7 @@ export const App: FC = () => {
               <TabLi>지도로 보기</TabLi>
             </Link>
           </TabUl>
+          <Div width="120px"></Div>
         </ToolbarDiv>
         <ContentDiv>
           <Switch>
@@ -62,7 +75,7 @@ const ToolbarDiv = styled.div`
   height: 60px;
   background-color: black;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 const ContentDiv = styled.div`
@@ -77,6 +90,9 @@ const TabUl = styled.ul`
   margin: 0px;
   padding: 0px;
   list-style: none;
+  width: 330px;
+  display: flex;
+  justify-content: center;
 `;
 const TabLi = styled.li`
   background: #ededed;
@@ -90,7 +106,6 @@ const TabLi = styled.li`
   &:hover {
     background: #505050;
     color: #ededed;
-    font-size: 25px;
     font-weight: bold;
   }
 `;
