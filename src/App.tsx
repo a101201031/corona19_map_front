@@ -43,7 +43,7 @@ export const App: FC = () => {
             <Span color="white" fontSize="15px">
               갱신일
               <br />
-              {dateFormat(lastUpd!)}
+              {dateFormat(lastUpd)}
             </Span>
           </Div>
           <TabUl>
