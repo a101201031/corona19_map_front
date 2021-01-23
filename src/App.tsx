@@ -23,7 +23,7 @@ export const App: FC = () => {
           CountryName[v.CountryCode] + ' ' + getCountryImoji(v.CountryCode)),
     );
     setCountryItems(globalInfo);
-    setLastUpd(new Date(globalInfo[0].LastUpdate));
+    setLastUpd(new Date(globalInfo[0]?.LastUpdate));
   };
 
   useEffect(() => {
