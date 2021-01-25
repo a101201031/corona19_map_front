@@ -1,4 +1,4 @@
-export enum CountryName {
+export enum Korean {
   GH = '가나',
   GA = '가봉',
   GY = '가이아나',

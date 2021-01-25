@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CountryItem } from 'models';
-import { CountryName } from 'lang/korean';
+import { Korean } from 'lang';
 import { Col, Div, Span } from 'style';
 import { Dashboard } from 'Dashboard';
 import ChartMap from 'ChartMap';
@@ -20,7 +20,7 @@ export const App: FC = () => {
     globalInfo.map(
       (v) =>
         (v.Country =
-          CountryName[v.CountryCode] + ' ' + getCountryImoji(v.CountryCode)),
+          Korean[v.CountryCode] + ' ' + getCountryImoji(v.CountryCode)),
     );
     setCountryItems(globalInfo);
     setLastUpd(new Date(globalInfo[0]?.LastUpdate));
