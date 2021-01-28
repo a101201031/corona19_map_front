@@ -4,17 +4,14 @@ import styled from 'styled-components';
 import CountUp from 'react-countup';
 import { Col, Div, Row, Span } from 'style';
 import { numWithComma } from 'javascript/numWithComma';
-
-interface Props {
-  countryItems: CountryItem[];
-}
+import { useCtryItemsState } from 'contexts/CtryItemsCont';
 
 interface CountryInfoProps {
   countryItem: CountryItem;
   rank?: number;
 }
 
-export const InfoList: FC<Props> = ({ countryItems }) => (
+export const InfoList: FC = () => (
   <Col width="100%" alignItems="center">
     <Row
       width="100%"
@@ -22,7 +19,7 @@ export const InfoList: FC<Props> = ({ countryItems }) => (
       justifyContent="space-between"
       color="white"
     >
-      <GlobalInfo countryItems={countryItems} />
+      <GlobalInfo />
     </Row>
     <Col
       width="100%"
@@ -33,15 +30,16 @@ export const InfoList: FC<Props> = ({ countryItems }) => (
       borderRadius="20px"
       alignItems="stretch"
     >
-      <CountryInfoList countryItems={countryItems} />
+      <CountryInfoList />
     </Col>
   </Col>
 );
 
-const GlobalInfo: FC<Props> = ({ countryItems }) => {
+const GlobalInfo: FC = () => {
+  const ctryItems = useCtryItemsState();
   const globalInfo = useMemo(
     () =>
-      countryItems.reduce(
+      ctryItems.reduce(
         (prev, curr) => ({
           NewConfirmed: prev.NewConfirmed + curr.NewConfirmed,
           TotalConfirmed: prev.TotalConfirmed + curr.TotalConfirmed,
@@ -49,7 +47,6 @@ const GlobalInfo: FC<Props> = ({ countryItems }) => {
           TotalDeaths: prev.TotalDeaths + curr.TotalDeaths,
           NewRecovered: prev.NewRecovered + curr.NewRecovered,
           TotalRecovered: prev.TotalRecovered + curr.TotalRecovered,
-          LastUpdate: curr.LastUpdate,
         }),
         {
           NewConfirmed: 0,
@@ -58,10 +55,9 @@ const GlobalInfo: FC<Props> = ({ countryItems }) => {
           TotalDeaths: 0,
           NewRecovered: 0,
           TotalRecovered: 0,
-          LastUpdate: new Date(),
         },
       ),
-    [countryItems],
+    [ctryItems],
   );
 
   return (
@@ -103,15 +99,15 @@ const GlobalInfo: FC<Props> = ({ countryItems }) => {
   );
 };
 
-const CountryInfoList: FC<Props> = ({ countryItems }) => {
+const CountryInfoList: FC = () => {
+  const ctryItems = useCtryItemsState();
   const sortedNew = useMemo(
-    () => countryItems.slice().sort((a, b) => b.NewConfirmed - a.NewConfirmed),
-    [countryItems],
+    () => ctryItems.slice().sort((a, b) => b.NewConfirmed - a.NewConfirmed),
+    [ctryItems],
   );
   const sortedTotal = useMemo(
-    () =>
-      countryItems.slice().sort((a, b) => b.TotalConfirmed - a.TotalConfirmed),
-    [countryItems],
+    () => ctryItems.slice().sort((a, b) => b.TotalConfirmed - a.TotalConfirmed),
+    [ctryItems],
   );
   return (
     <>

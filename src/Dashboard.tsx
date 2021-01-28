@@ -1,20 +1,13 @@
 import { InfoList } from 'InfoList';
-import { CountryItem } from 'models';
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import Earth from 'earth.jpg';
 
-interface Props {
-  countryItems: CountryItem[];
-}
-
-export const Dashboard: React.FC<Props> = ({ countryItems }) => {
-  return (
-    <DashboardContainer>
-      <InfoList countryItems={countryItems} />
-    </DashboardContainer>
-  );
-};
+export const Dashboard: FC = () => (
+  <DashboardContainer>
+    <InfoList />
+  </DashboardContainer>
+);
 
 const DashboardContainer = styled.div`
   flex: 1;

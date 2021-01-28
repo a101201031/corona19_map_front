@@ -47,7 +47,7 @@ const initState: CtryItemsState = [
     NewDeaths: 0,
     TotalRecovered: 0,
     NewRecovered: 0,
-    LastUpdate: new Date(0, 0, 0),
+    LastUpdate: undefined,
   },
 ];
 

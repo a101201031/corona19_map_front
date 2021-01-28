@@ -1,35 +1,14 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { CountryItem } from 'models';
-import { Korean } from 'lang';
-import { Col, Div, Span } from 'style';
+import { Col, Div } from 'style';
 import { Dashboard } from 'Dashboard';
 import ChartMap from 'ChartMap';
-import { getCoronaInfo } from 'javascript/getCoronaInfo';
-import { getCountryImoji } from 'javascript/getCountryImoji';
-import { dateFormat } from 'javascript/dateFormat';
+import { CtryItemsProvider } from 'contexts/CtryItemsCont';
+import { LastUpd } from 'LastUpd';
 
 export const App: FC = () => {
-  const [countryItems, setCountryItems] = useState<CountryItem[]>([]);
-  const [lastUpd, setLastUpd] = useState<CountryItem['LastUpdate']>();
-
-  const getCountryItems = async () => {
-    const globalInfo = await getCoronaInfo();
-    globalInfo.map(
-      (v) =>
-        (v.Country =
-          Korean[v.CountryCode] + ' ' + getCountryImoji(v.CountryCode)),
-    );
-    setCountryItems(globalInfo);
-    setLastUpd(new Date(globalInfo[0]?.LastUpdate));
-  };
-
-  useEffect(() => {
-    getCountryItems();
-  }, []);
-
   return (
     <Router>
       <Col
@@ -38,34 +17,32 @@ export const App: FC = () => {
         justifyContent="stretch"
         alignItems="stretch"
       >
-        <ToolbarDiv>
-          <Div textAlign="center" width="120px" ml="10px" mr="10px">
-            <Span color="white" fontSize="15px">
-              갱신일
-              <br />
-              {dateFormat(lastUpd)}
-            </Span>
-          </Div>
-          <TabUl>
-            <Link to="/">
-              <TabLi>상황판 보기</TabLi>
-            </Link>
-            <Link to="/map">
-              <TabLi>지도로 보기</TabLi>
-            </Link>
-          </TabUl>
-          <Div width="120px"></Div>
-        </ToolbarDiv>
-        <ContentDiv>
-          <Switch>
-            <Route path="/map">
-              <ChartMap countryItems={countryItems} />
-            </Route>
-            <Route path="/">
-              <Dashboard countryItems={countryItems} />
-            </Route>
-          </Switch>
-        </ContentDiv>
+        <CtryItemsProvider>
+          <ToolbarDiv>
+            <Div textAlign="center" width="120px" ml="10px" mr="10px">
+              <LastUpd />
+            </Div>
+            <TabUl>
+              <Link to="/">
+                <TabLi>상황판 보기</TabLi>
+              </Link>
+              <Link to="/map">
+                <TabLi>지도로 보기</TabLi>
+              </Link>
+            </TabUl>
+            <Div width="120px"></Div>
+          </ToolbarDiv>
+          <ContentDiv>
+            <Switch>
+              <Route path="/map">
+                <ChartMap />
+              </Route>
+              <Route path="/">
+                <Dashboard />
+              </Route>
+            </Switch>
+          </ContentDiv>
+        </CtryItemsProvider>
       </Col>
     </Router>
   );
