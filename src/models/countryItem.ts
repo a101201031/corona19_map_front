@@ -256,5 +256,5 @@ export interface CountryItem {
   TotalDeaths: number;
   NewRecovered: number;
   TotalRecovered: number;
-  LastUpdate: Date;
+  LastUpdate: Date | undefined;
 }
